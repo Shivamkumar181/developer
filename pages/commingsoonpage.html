@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .coming-soon-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0);
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
+            text-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #4cc9f0, #f72585);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4cc9f0;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .notify-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .notify-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px #4cc9f0;
+        }
+
+        .notify-btn {
+            padding: 0 30px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .notify-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(46, 204, 113, 0.2);
+            border-radius: 8px;
+            border: 1px solid #2ecc71;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+
+        @media (max-width: 600px) {
+            .coming-soon-container {
+                width: 90%;
+                padding: 30px 20px;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+                padding: 10px;
+            }
+            
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+            
+            .notify-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="coming-soon-container">
+        <div class="logo">
+            <i class="fas fa-rocket"></i>
+        </div>
+        <h1>Coming Soon</h1>
+        <p>We're working hard to bring you something amazing. Stay tuned for our launch!</p>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        
+        <p>Get notified when we launch:</p>
+        <form id="notifyForm" class="notify-form">
+            <input type="email" class="notify-input" id="emailInput" placeholder="Your email address" required>
+            <button type="submit" class="notify-btn">Notify Me</button>
+        </form>
+        
+        <div id="successMessage" class="success-message">
+            <i class="fas fa-check-circle"></i> Thank you! We'll notify you when we launch.
+        </div>
+    </div>
+
+    <script>
+        // Create floating elements
+        const floatingElements = document.getElementById('floatingElements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            const size = Math.random() * 100 + 50;
+            const posX = Math.random() * window.innerWidth;
+            const posY = Math.random() * window.innerHeight;
+            const delay = Math.random() * 15;
+            const duration = Math.random() * 20 + 10;
+            
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${posX}px`;
+            element.style.top = `${posY}px`;
+            element.style.animationDelay = `${delay}s`;
+            element.style.animationDuration = `${duration}s`;
+            
+            floatingElements.appendChild(element);
+        }
+
+        // Countdown timer (set to 30 days from now)
+        const countdownDate = new Date();
+        countdownDate.setDate(countdownDate.getDate() + 30);
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+        
+        updateCountdown();
+        const countdownTimer = setInterval(updateCountdown, 1000);
+
+        // Form submission (using FormSubmit.co to send to your email)
+        document.getElementById('notifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const successMessage = document.getElementById('successMessage');
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            submitBtn.disabled = true;
+            
+            // Using FormSubmit.co to send to your email
+            fetch('https://formsubmit.co/ajax/mrshivam491@gmail.com', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    _subject: 'New Coming Soon Notification Signup',
+                    _template: 'table'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show success message
+                successMessage.style.display = 'block';
+                document.getElementById('notifyForm').reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error. Please try again later.');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

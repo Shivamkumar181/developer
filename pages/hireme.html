@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Me</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .highlight {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .option-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .option-card .price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 15px 0;
+        }
+        
+        .option-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .option-card ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .option-card ul li:before {
+            content: "✓";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 40px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .contact-form h2 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            width: 100%;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Success Message Styles */
+        .success-message-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .success-message-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .success-message {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-message-container.show .success-message {
+            transform: translateY(0);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .success-icon .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(46, 204, 113, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        .success-icon .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+        }
+        
+        .success-icon .checkmark:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 25px;
+            width: 20px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 0 3px 3px;
+            transform: rotate(-45deg);
+        }
+        
+        .success-message h3 {
+            color: var(--success-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .success-message button {
+            background: var(--success-color);
+            width: auto;
+            margin: 0 auto;
+            padding: 10px 25px;
+        }
+        
+        .success-message button:hover {
+            background: #27ae60;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+            70% {
+                transform: scale(1.1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes checkmark {
+            0% {
+                height: 0;
+                width: 0;
+                opacity: 0;
+            }
+            20% {
+                height: 0;
+                width: 20px;
+                opacity: 1;
+            }
+            40% {
+                height: 40px;
+                width: 20px;
+                opacity: 1;
+            }
+            100% {
+                height: 40px;
+                width: 20px;
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .option-card {
+                width: 100%;
+            }
+            
+            .success-message {
+                padding: 30px 20px;
+            }
+            
+            .success-message h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Hire <span class="highlight">Me</span></h1>
+            <p>I'm available for full-time, part-time, or contract work. Whether you need someone in-office or remote, let's discuss how I can contribute to your team.</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="options">
+            <div class="option-card">
+                <h3>Full-Time</h3>
+                <div class="price">Negotiable</div>
+                <ul>
+                    <li>40+ hours per week</li>
+                    <li>Long-term commitment</li>
+                    <li>Dedicated focus</li>
+                    <li>Benefits preferred</li>
+                    <li>On-site or remote</li>
+                </ul>
+                <button onclick="scrollToForm()">Hire Me Full-Time</button>
+            </div>
+            
+            <div class="option-card">
+                <h3>Part-Time</h3>
+                <div class="price">Negotiable</div>
+                <ul>
+                    <li>10-30 hours per week</li>
+                    <li>Flexible schedule</li>
+                    <li>Project-based work</li>
+                    <li>Remote preferred</li>
+                    <li>Contract or employee</li>
+                </ul>
+                <button onclick="scrollToForm()">Hire Me Part-Time</button>
+            </div>
+            
+            <div class="option-card">
+                <h3>Contract</h3>
+                <div class="price">Project-Based</div>
+                <ul>
+                    <li>Fixed-term projects</li>
+                    <li>Clear deliverables</li>
+                    <li>Hourly or fixed rate</li>
+                    <li>100% remote</li>
+                    <li>Flexible availability</li>
+                </ul>
+                <button onclick="scrollToForm()">Hire Me as Contractor</button>
+            </div>
+        </div>
+        
+        <div class="contact-form">
+            <h2>Let's Work Together</h2>
+            <form id="hireForm" action="https://formsubmit.co/mrshivam491@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="New Hire Request from Portfolio">
+                <input type="hidden" name="_next" value="success-message">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company (Optional)</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone (Optional)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="work-type">Type of Work</label>
+                    <select id="work-type" name="work-type" required>
+                        <option value="">Select an option</option>
+                        <option value="full-time">Full-Time Employment</option>
+                        <option value="part-time">Part-Time Employment</option>
+                        <option value="contract">Contract Work</option>
+                        <option value="freelance">Freelance Project</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Work Location Preference</label>
+                    <select id="location" name="location" required>
+                        <option value="">Select an option</option>
+                        <option value="remote">Remote/Work from Home</option>
+                        <option value="hybrid">Hybrid (Partial Remote)</option>
+                        <option value="onsite">On-Site</option>
+                        <option value="any">Any Location</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Tell me about the opportunity</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit">Send Opportunity Details</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Success Message Popup -->
+    <div class="success-message-container" id="successMessageContainer">
+        <div class="success-message">
+            <div class="success-icon">
+                <div class="circle"></div>
+                <div class="checkmark" style="background-color: var(--success-color); border-radius: 50%;"></div>
+            </div>
+            <h3>Thank You!</h3>
+            <p>Your message has been successfully sent. I'll get back to you soon.</p>
+            <button onclick="hideSuccessMessage()">Got It!</button>
+        </div>
+    </div>
+    
+    <script>
+        
+        // Scroll to form function
+        function scrollToForm() {
+            document.querySelector('.contact-form').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        // Show success message
+        function showSuccessMessage() {
+            const container = document.getElementById('successMessageContainer');
+            container.classList.add('show');
+        }
+        
+        // Hide success message
+        function hideSuccessMessage() {
+            const container = document.getElementById('successMessageContainer');
+            container.classList.remove('show');
+        }
+        
+        // Form submission handling
+        document.getElementById('hireForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            
+            // Show loading state if needed
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            // Send data to FormSubmit
+            fetch('https://formsubmit.co/ajax/mrshivam491@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show success message
+                showSuccessMessage();
+                // Reset form
+                document.getElementById('hireForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form. Please try again.');
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Opportunity Details';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate My Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #2c3e50;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --star-color: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .rating-container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .rating-title {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+        
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            gap: 10px;
+        }
+        
+        .star {
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: var(--star-color);
+            transform: scale(1.1);
+        }
+        
+        .rating-value {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            width: 100%;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: var(--secondary-color);
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            color: #2e7d32;
+            margin-bottom: 40px;
+        }
+        
+        .thank-you h2 {
+            margin-bottom: 10px;
+        }
+        
+        .thank-you p {
+            font-size: 1.1rem;
+        }
+        
+        .recent-ratings {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recent-ratings h2 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .rating-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .rating-item:last-child {
+            border-bottom: none;
+        }
+        
+        .rating-stars {
+            color: var(--star-color);
+            font-size: 1.2rem;
+            margin-right: 20px;
+            min-width: 120px;
+        }
+        
+        .rating-comment {
+            flex-grow: 1;
+        }
+        
+        .rating-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-color);
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 20px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .rating-container,
+            .recent-ratings {
+                padding: 20px;
+            }
+            
+            .stars {
+                font-size: 2rem;
+            }
+            
+            .rating-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .rating-stars {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Rate My Portfolio</h1>
+            <p>Your feedback helps me improve my work and showcase my skills better. Please take a moment to rate your experience.</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="thank-you" id="thankYou">
+            <h2>Thank You for Your Feedback!</h2>
+            <p>Your rating has been submitted successfully. I appreciate your time and input.</p>
+        </div>
+        
+        <div class="rating-container" id="ratingFormContainer">
+            <h2 class="rating-title">How would you rate my portfolio?</h2>
+            
+            <div class="stars">
+                <i class="fas fa-star star" data-rating="1"></i>
+                <i class="fas fa-star star" data-rating="2"></i>
+                <i class="fas fa-star star" data-rating="3"></i>
+                <i class="fas fa-star star" data-rating="4"></i>
+                <i class="fas fa-star star" data-rating="5"></i>
+            </div>
+            
+            <div class="rating-value" id="ratingValue">
+                Select a rating (1-5 stars)
+            </div>
+            
+            <form id="ratingForm" action="https://formsubmit.co/your-email@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="New Portfolio Rating Received">
+                <input type="hidden" name="_next" value="https://yourportfolio.com/thank-you.html">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="rating" id="formRating" value="">
+                
+                <div class="form-group">
+                    <label for="name">Your Name (Optional)</label>
+                    <input type="text" id="name" name="name" placeholder="Mohit Ranjan">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email (Optional - if you'd like a response)</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="feedback">Feedback (Optional)</label>
+                    <textarea id="feedback" name="feedback" placeholder="What did you like or think could be improved?"></textarea>
+                </div>
+                
+                <button type="submit" id="submitBtn">Submit Rating</button>
+            </form>
+        </div>
+        
+        <div class="recent-ratings">
+            <h2>Recent Ratings</h2>
+            
+            <div class="rating-item">
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="rating-comment">
+                    "Excellent portfolio! The projects are well-presented and demonstrate a wide range of skills."
+                    <div class="rating-meta">- Hari, 2 days ago</div>
+                </div>
+            </div>
+            
+            <div class="rating-item">
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <div class="rating-comment">
+                    "Great work overall. Would love to see more case studies with problem-solving details."
+                    <div class="rating-meta">- Suman, 1 week ago</div>
+                </div>
+            </div>
+            
+            <div class="rating-item">
+                <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="rating-comment">
+                    "Impressive design skills. The mobile responsiveness could be highlighted more clearly."
+                    <div class="rating-meta">- Ankush, 2 weeks ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script>
+        // Star rating functionality
+        const stars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('ratingValue');
+        const formRating = document.getElementById('formRating');
+        let currentRating = 0;
+        
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                currentRating = rating;
+                formRating.value = rating;
+                
+                // Update star display
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('active');
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('active');
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+                
+                // Update rating text
+                const ratingTexts = [
+                    "Poor - Needs significant improvement",
+                    "Fair - Has some good elements",
+                    "Good - Solid work overall",
+                    "Very Good - Impressive with minor areas to improve",
+                    "Excellent - Outstanding work!"
+                ];
+                ratingValue.textContent = `${rating} star${rating > 1 ? 's' : ''} - ${ratingTexts[rating - 1]}`;
+            });
+            
+            // Hover effects
+            star.addEventListener('mouseover', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('hover');
+                    } else {
+                        s.classList.remove('hover');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseout', () => {
+                stars.forEach(s => {
+                    s.classList.remove('hover');
+                });
+            });
+        });
+        
+        // Form submission handling
+        document.getElementById('ratingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (currentRating === 0) {
+                alert('Please select a rating before submitting');
+                return;
+            }
+            
+            // Using FormSubmit.co
+            const formData = new FormData(this);
+            
+            fetch('https://formsubmit.co/ajax/mrshivam491@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show thank you message
+                document.getElementById('ratingFormContainer').style.display = 'none';
+                document.getElementById('thankYou').style.display = 'block';
+                
+                // You could also add the new rating to the recent ratings section
+                // This would require either server-side code or localStorage
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your rating. Please try again.');
+            });
+        });
+        
+
+
+
+
+//         document.getElementById('ratingForm').addEventListener('submit', function(e) {
+//     e.preventDefault();
+    
+//     // Show loading state
+//     const submitBtn = document.getElementById('submitBtn');
+//     const originalBtnText = submitBtn.innerHTML;
+//     submitBtn.disabled = true;
+//     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+//     // Collect form data
+//     const formData = new FormData(this);
+    
+//     // Add additional data if needed
+//     formData.append('_subject', 'New Portfolio Rating Received');
+//     formData.append('_template', 'basic'); // Optional FormSubmit template
+    
+//     // Send to FormSubmit
+//     fetch('https://formsubmit.co/ajax/mrshivam491@gmail.com', {
+//         method: 'POST',
+//         body: formData
+//     })
+//     .then(response => {
+//         if (!response.ok) throw new Error('Network response was not ok');
+//         return response.json();
+//     })
+//     .then(data => {
+//         // Show success message
+//         document.getElementById('thankYou').style.display = 'block';
+//         document.getElementById('ratingFormContainer').style.display = 'none';
+        
+//         // Optional: Store in localStorage
+//         const ratingData = {
+//             stars: document.getElementById('formRating').value,
+//             name: document.getElementById('name').value || 'Anonymous',
+//             feedback: document.getElementById('feedback').value || 'No feedback',
+//             date: new Date().toLocaleDateString()
+//         };
+//         storeRatingLocally(ratingData);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('There was an error submitting your rating. Please try again.');
+//     })
+//     .finally(() => {
+//         // Reset button state
+//         submitBtn.disabled = false;
+//         submitBtn.innerHTML = originalBtnText;
+//     });
+// });
+
+// // Optional: Store rating in localStorage
+// function storeRatingLocally(ratingData) {
+//     const ratings = JSON.parse(localStorage.getItem('portfolioRatings') || '[]');
+//     ratings.unshift(ratingData);
+//     localStorage.setItem('portfolioRatings', JSON.stringify(ratings));
+//     updateRecentRatings();
+// }
+
+// // Optional: Update recent ratings display
+// function updateRecentRatings() {
+//     const ratings = JSON.parse(localStorage.getItem('portfolioRatings') || '[]');
+//     const container = document.querySelector('.recent-ratings');
+    
+//     container.innerHTML = '<h2>Recent Ratings</h2>';
+    
+//     ratings.slice(0, 5).forEach(rating => {
+//         const starsHTML = '★'.repeat(rating.stars) + '☆'.repeat(5 - rating.stars);
+//         container.innerHTML += `
+//             <div class="rating-item">
+//                 <div class="rating-stars">${starsHTML}</div>
+//                 <div class="rating-comment">
+//                     "${rating.feedback}"
+//                     <div class="rating-meta">- ${rating.name}, ${rating.date}</div>
+//                 </div>
+//             </div>
+//         `;
+//     });
+// }
+    </script>
+</body>
+</html>
